@@ -41,6 +41,8 @@
   
   function add_clear_button(input, set_focus) {
     if (input.attr('has_clearable_button')!="1") {
+      input.data('original-width', $(input).width());
+      
       input.attr('has_clearable_button',"1");
       var wrap = input.parent();
       if (!wrap.hasClass('clear_button_wrapper')) {
