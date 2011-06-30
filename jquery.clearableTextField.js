@@ -9,9 +9,10 @@
   *   http://www.gnu.org/licenses/gpl.html
   */
 (function($) {
+  var val = '';
   $.fn.clearableTextField = function() {
     if ($(this).length>0) {
-      $(this).bind('keyup change paste cut', onSomethingChanged);
+      $(this).bind('keyup change paste cut input', onSomethingChanged);
     
       $(this).each( function(){
         $(this).data('original-padding-right', $(this).css('padding-right'));
@@ -22,7 +23,12 @@
   }
   
   function onSomethingChanged() {
-    trigger($(this), true);
+    var newVal = $(this).val();
+    // only trigger if the value has really changed
+    if ( newVal != val ) {
+      val = newVal;
+      trigger($(this), true);
+    }
   }
   
   function trigger(input, set_focus) {
@@ -55,7 +61,7 @@
       style['left'] = pos.left + input.outerWidth(false) - (w+2);
       var offset = Math.round((input.outerHeight(true) - h)/2.0);
       style['top'] = pos.top + offset;
-            
+
       clear_button.css(style);
           
       clear_button.click(function(){
